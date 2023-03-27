@@ -5,6 +5,8 @@ import {useAppContext} from "../context/appContext";
 import FormRowSelect from "./FormRowSelect";
 
 const SearchContainer = () => {
+    const [localSearch, setLocalSearch] = React.useState<string>('')
+
     const {
         isLoading,
         handleChange,
@@ -25,8 +27,22 @@ const SearchContainer = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        setLocalSearch('')
         clearFilters!()
     }
+
+    const debounce = () => {
+        let timeoutID: NodeJS.Timeout;
+        return (e: React.ChangeEvent<HTMLInputElement>) => {
+            setLocalSearch(e.target.value)
+            clearTimeout(timeoutID)
+            timeoutID = setTimeout(() => {
+                handleChange!({name: e.target.name, value: e.target.value})
+            }, 1000)
+        }
+    }
+
+    const optimizedDebounce = React.useMemo(() => debounce(), [])
 
     return (
         <Wrapper>
@@ -36,8 +52,8 @@ const SearchContainer = () => {
                     <FormRow
                         type={'text'}
                         name={'search'}
-                        value={search}
-                        handleChange={handleSearch}
+                        value={localSearch}
+                        handleChange={optimizedDebounce}
                         />
                     <FormRowSelect
                         name={'searchStatus'}

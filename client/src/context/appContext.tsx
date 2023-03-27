@@ -156,7 +156,7 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
                 status
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${state.token}`
                 }
             })
             dispatch({
@@ -183,7 +183,7 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
         try {
             const { data } = await axios.get('http://localhost:4001/api/v1/jobs'+url, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${state.token}`
                 }
             })
             const {jobs, totalJobs, numOfPages } = data
@@ -223,7 +223,7 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
                 status
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${state.token}`
                 }
             })
             dispatch({
@@ -249,7 +249,7 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
         try {
             await axios.delete(`http://localhost:4001/api/v1/jobs/${jobId}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${state.token}`
                 }
             })
             await getJobs()
