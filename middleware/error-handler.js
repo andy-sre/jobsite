@@ -1,7 +1,9 @@
 const errorHandlerMiddleware = (error, req, res, next) => {
+    console.log('Here')
     let errorCode = error.statusCode || 500;
     let errorMsg = error.message || 'Something went wrong, please try again later';
     try {
+        console.log(error)
         if (error.name === 'ValidationError') {
             errorCode = 400
             console.log(error)
